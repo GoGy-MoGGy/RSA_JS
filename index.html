@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>JS_RSA_D/E</title>
+</head>
+<body>
+<script type="text/javascript">
+//2 3 5 7 11
+count = 0;
+count1 = 0;
+let private_key_arr_arg = [];
+let arr_simple_num = [count];
+let arr_ = [count];
+var p = 3;
+var q = 7;
+var n = p*q;
+var Fi = (p-1)*(q-1)
+var bel_Fi = Fi-1;
+let ni = bel_Fi;
+
+nextPrime:
+for (let i = 2; i <= bel_Fi; i++) { 
+
+  for (let j = 2; j < i; j++) { 
+    if (i % j == 0) continue nextPrime;
+  }
+
+arr_simple_num[count] = i;
+count++;
+document.writeln(i);
+}
+
+function isCoprime (arr,Fi) {
+	var iteri = arr.length;
+	for (var v = 0 ; v <= iteri; v++) {
+		
+	b = Fi;
+	a = arr[v];
+	//console.log(a + "," + b);
+	var num;
+	while ( b ) {
+		num = a % b;
+		//console.log(num);
+		a = b;
+		b = num;
+	}
+	if (Math.abs(a) == 1) {
+		//console.log(true);
+		console.log(arr[v]);
+		return arr[v];
+	}
+	//console.log(false);
+	//return false;
+}
+}
+console.log(n);	
+console.log(Fi);
+console.log(arr_simple_num);
+var e = isCoprime(arr_simple_num,Fi);
+var public_key = [e,n];
+//var private_key = (d * 5)%Fi = 1
+var count2 = 0
+for(var i =  0 ; i <= 100; i++){
+if ((i * 5)%Fi == 1) {
+private_key_arr_arg[count2] = i;
+count2++;
+}
+
+}
+//console.log(private_key_arr_arg);
+
+d = private_key_arr_arg[1]
+var private_key = [d,n];
+console.log(private_key)
+console.log(public_key)
+function crypto_dodik (public_key,data){
+	 return(data**public_key[0])%public_key[1];
+}
+
+function crypto_undodik(private_key,encrypted_data){
+	 return encrypted_data**private_key[0]%private_key[1];
+}
+encrypted_data = crypto_dodik(public_key,19);
+decrypted_data = crypto_undodik(public_key,encrypted_data);
+
+console.log(encrypted_data);
+</script>
+</body>
+</html>
